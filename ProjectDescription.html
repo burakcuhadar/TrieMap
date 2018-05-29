@@ -1,0 +1,150 @@
+<html>
+<head>
+<link href="css/question.css" type="text/css" rel="stylesheet" />
+<title>Question (teaching.codes)</title>
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1>
+					Project-3: <code>TrieMap</code>
+				</h1>
+				
+				<div id="page1">
+					<h2>Description</h2>
+					<p>
+						You will implement a data structure in your last project in this semester.
+						We name this data stucture <code>TrieMap</code>.
+						Essentially, it is a map, meaning that you will store key-value pairs. 
+						Also, your data structure should return the value that corresponds to a given key.  
+					</p>
+
+					<p>
+						The keys are stored in another data structure named <b>trie</b>.
+						Tries are efficient data structures for search operations.
+						They are quite similar to radix search trees that you learned in the class, 
+						so don't be afraid if you have not ever heard of the data structure.
+
+						<ul>
+							<li>
+								Tries are basically trees (not necessarily binary). Each node in a trie stores a <b>word</b>.
+							</li>
+							<li> 
+								In our context, a word is simply a sequence of letters in the alphabet. Example words are "asd", "a", "ryhthn", "sproidafgbntujhdt". 
+							</li>
+							<li>
+								The <b>alphabet size (N)</b> is the number of letters in our alphabet. Our alphabet consists of the first N letters in English. For example, if N=2/5/11, our alphabet is {a,b},{a,b,c,d,e},{a,b,c,d,e,f,g,h,i,j,k}. 
+								So, we do not directly assume that words are made up of a-z.
+							</li>
+							<li>
+								The <b>root</b> represents an empty string (""). 
+							</li>
+							<li>
+								Each node in the trie can have N children, where each edge is reserved for a letter in the alphabet. So, a node that is in the k'th level (k edges away from the root) must store a word of length k. The path from the root to a particular node gives the word stored in that node.
+							</li>
+							<li>
+								In the context of <code>TrieMap</code>, we use this data structure to store key-value pairs. Keys are nothing but the words stored in trie.
+							</li>
+							<li>
+								A good tutorial, including a must-watch video, on Trie: http://www.geeksforgeeks.org/trie-insert-and-search/
+							</li>
+							<li>
+								Another tutorial: https://www.topcoder.com/community/data-science/data-science-tutorials/using-tries/
+							</li>
+						</ul>
+					</p>
+
+					<p>
+						<ul>
+							<li>
+								Suppose we have an alphabet of N=3 letters. When only the key-value pair <b>cc-v1</b> is inserted, the trie looks like this:
+								</br>
+								<img src="Trie-1.jpg" alt="Trie-1" style="width:400px;height:300px;">
+								</br>
+							</li>
+							<li>
+								When <b>baac-v2</b> is inserted, we have the following:
+								</br>
+								<img src="Trie-2.jpg" alt="Trie-2" style="width:400px;height:300px;">
+								</br>
+							</li>
+							<li>
+								Finally, to insert <b>b-v3</b>, you do not create a new node:
+								</br>
+								<img src="Trie-3.jpg" alt="Trie-3" style="width:400px;height:300px;">
+								</br>
+							</li>
+							<li>
+								Shaded nodes are called <b>leaf</b>. Observe that the meaning of the word is not the same as in the context of trees in general. Here, if a path from the root to a particular node forms a key that is inserted in the tree, then this particular node is referred as leaf. So, the node that stores v3 as value is also a leaf. 
+							</li>
+							<li>
+								When you are asked to return the value that corresponds to a key <b>k</b>, you simply process each letter in <b>k</b>. If you end up in a leaf, you return the value. Otherwise, you conclude that no value whose key is <b>k</b> is inserted.
+							</li>
+							<li>
+								As you see, the complexity of search operation is <b>O(L)</b>, if L is the word length. Note that this is different than binary search trees. In binary search trees, a comparison made in each node costs <b>O(L)</b> as you compare two strings, not characters. Then, overall complexity becomes <b>O(L*logM)</b>, where M is the number of nodes in the binary tree.
+							</li>
+						</ul>
+
+					</p>
+
+					<h3>Tasks</h3>
+
+					<ul>
+						<li>
+							<b>Task-1:</b> Implement <code>TrieMap&lt;T&gt;</code> class by extending <code>TrieMapBase&lt;T&gt;</code> abstract class (Observe that you will also need to implement <code>Node&lt;T&gt;</code>). Here, T is the type of the keys to be stored.
+						</li>
+						<li>
+							<b>Task-2:</b> Implement <code>public static boolean containsSubstr(String text, String key)</code> 
+							<br>
+							that returns true if <code>key</code> appears as a substring in <code>text</code> and false otherwise. You may assume that both strings are made up of a-z.
+						</li>
+						<li>
+							<b>Task-3:</b> Implement <code>public static int wordCount(String book, String word)</code>
+							<br> 
+							that returns how many times <code>word</code> appears in the <code>book</code>. Each word in <code>book</code> is separated by a white space. You may assume that both strings are made up of a-z and white space.
+						</li>
+						<li>
+							<b>Task-4:</b> Implement <code>public static String[] uniqueWords(String book)</code>
+							<br>
+							that returns the unique words in a book. Each word in <code>book</code> is separated by a white space. You may assume that strings are made up of a-z. 
+						</li>
+						<li>
+							<b>Task-5:</b> Implement <code>public static String[][] autoComplete(String[] userHistory, String[] incompleteWords)</code>
+							<br>
+							that suggests word completions based on the counts of the words written previously. More formally, given a string <b>S</b> of consecutive letters (<b>S</b> not containing any white space), autocomplete feature must recommend 3 most commonly written words that start with <b>S</b>. A very inefficient way of solving the problem is the following: Among all the strings in the user history, you will take those that start with S, sort them according to their frequencies (how many times they are written), and recommend the 3 most frequently written ones. But you will use Trie data structure to solve the problem efficiently.
+							The first parameter above consists of the words written previously by the user. The second parameter is the list of strings your code will autocomplete. For each string in <code>incompleteWords</code>, you will recommend three words. Therefore, if the second parameter has length S, you will return a Sx3 array that contains the recommendations for each word to be autocompleted. You may assume that all strings are made up of a-z.
+						</li>
+					</ul>
+
+					<h3>Notes</h3>
+
+					<ul>
+						<li>
+							<b>NOTICE:</b> When you ignore the values, TrieMap reduces to Trie. You will have to use that property.
+						<li>
+							In TrieMap, keys are always strings, values must be generic.
+						</li>
+						<li>
+							In TrieMap, N is not greater than 26 and not less than 2.
+						</li>
+						<li>
+							In TrieMap, N and alphabet will always be consistent
+						</li>
+						<li>
+							Do not change the class definition of TrieMap: 
+							<code> public class TrieMap&lt;T&gt; extends TrieMapBase&lt;T&gt;</code>
+						</li>
+						<li>
+							You are expected to use Trie data structure in your solution to Task2-3-4-5. If not, you will get no credit. 
+						</li>
+					</ul>
+
+
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</body>
+</html>
